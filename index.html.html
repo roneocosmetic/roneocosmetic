@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+  <title>Roneo Barber Cosmetics | Catálogo Oficial</title>
+  <meta name="description" content="Catálogo exclusivo de cosmética y herramientas de Roneo Barber. Haz tu pedido y recoge en tienda pagando en mano.">
+  <meta name="theme-color" content="#0d0e12">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cabinet+Grotesk:wght@800;900&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Explanatory Announcement Banner -->
+  <aside class="instruction-banner" id="instructionBanner" aria-label="Información de compra">
+    <div class="banner-glow"></div>
+    <div class="banner-content">
+      <div class="banner-icon-badge">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+      </div>
+      <div class="banner-text">
+        <span class="banner-title">¿Cómo hacer tu pedido?</span>
+        <p class="banner-desc">Para comprar, añade los productos que quieras al carrito y pulsa en finalizar. Se abrirá automáticamente un mensaje de Instagram listo para enviar con tu pedido para recoger y pagar en mano en la barbería.</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-block">
+        <a href="#" class="brand-logo-link" aria-label="Roneo Barber Cosmetics">
+          <img src="logo.png" alt="Roneo Barber Cosmetics" class="brand-logo-img">
+        </a>
+      </div>
+
+      <div class="header-actions">
+        <a href="https://instagram.com/roneo_barber" target="_blank" rel="noopener noreferrer" class="ig-profile-link" title="Visitar perfil en Instagram">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+          <span class="handle-tag">@roneo_barber</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Quick Store Badges -->
+    <div class="store-features">
+      <div class="feature-tag">
+        <span class="dot live"></span> Recogida en tienda
+      </div>
+      <div class="feature-tag">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Pago en mano
+      </div>
+      <div class="feature-tag">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        100% Calidad
+      </div>
+    </div>
+  </header>
+
+  <!-- Filter / Category Tabs -->
+  <nav class="category-nav" aria-label="Categorías de productos">
+    <button class="cat-pill active" data-category="all">Todos</button>
+    <button class="cat-pill top-pill" data-category="top">🔥 Top Ventas</button>
+    <button class="cat-pill" data-category="styling">Fijación</button>
+    <button class="cat-pill" data-category="care">Cuidado</button>
+    <button class="cat-pill" data-category="tools">Máquinas</button>
+  </nav>
+
+  <!-- Main Catalog Section -->
+  <main class="catalog-main">
+    <div class="catalog-header-bar">
+      <h2 class="section-title">Productos Premium</h2>
+      <span class="product-count-badge" id="productCount">5 artículos</span>
+    </div>
+
+    <!-- Mobile Product Grid -->
+    <section class="products-grid" id="productsGrid" aria-label="Catálogo de productos">
+      <!-- Injected dynamically via app.js -->
+    </section>
+
+    <!-- Why Buy from Roneo Card -->
+    <section class="store-info-card">
+      <div class="info-card-inner">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        </div>
+        <div class="info-text">
+          <h3>Punto de recogida oficial</h3>
+          <p>Tu pedido se reserva al enviar el mensaje de Instagram. Pasa por la barbería a recogerlo cuando mejor te venga y abónalo en efectivo o Bizum en mano.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Floating Sticky Cart Bar (Mobile First) -->
+  <div class="floating-cart-wrapper" id="floatingCartWrapper">
+    <div class="floating-cart-bar" id="floatingCartBtn">
+      <div class="cart-bar-left">
+        <div class="cart-icon-container">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="cart-badge-count" id="cartCountBadge">0</span>
+        </div>
+        <div class="cart-bar-summary">
+          <span class="cart-bar-label">Total estimado</span>
+          <span class="cart-bar-price" id="cartTotalBar">0 €</span>
+        </div>
+      </div>
+      <button class="cart-bar-cta" type="button">
+        <span>Ver Carrito</span>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Cart Modal / Bottom Sheet -->
+  <div class="cart-drawer-overlay" id="cartOverlay">
+    <div class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+      <div class="drawer-handle-bar">
+        <span class="drawer-drag-pill"></span>
+      </div>
+
+      <div class="cart-drawer-header">
+        <div class="drawer-title-group">
+          <h2 id="cartTitle">Tu Cesta</h2>
+          <span class="drawer-badge" id="drawerItemsBadge">0 productos</span>
+        </div>
+        <button class="close-drawer-btn" id="closeCartBtn" aria-label="Cerrar carrito">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Cart Items Body -->
+      <div class="cart-drawer-body" id="cartDrawerBody">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Cart Drawer Footer -->
+      <div class="cart-drawer-footer" id="cartDrawerFooter">
+        <div class="client-name-input-group">
+          <label for="clientNameInput">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            Tu Nombre (para el mensaje):
+          </label>
+          <input type="text" id="clientNameInput" placeholder="Ej. Carlos / Dani" maxlength="40" autocomplete="name">
+        </div>
+
+        <div class="cart-subtotal-row">
+          <span>Recogida en tienda</span>
+          <span class="free-pill">GRATIS</span>
+        </div>
+        <div class="cart-total-row">
+          <span>Total a pagar en mano:</span>
+          <span class="total-amount" id="drawerTotalPrice">0 €</span>
+        </div>
+
+        <button class="instagram-checkout-btn" id="checkoutInstagramBtn" type="button">
+          <div class="btn-ig-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </div>
+          <div class="btn-text-content">
+            <span class="btn-main-text">Finalizar Pedido en Instagram</span>
+            <span class="btn-sub-text">Se abrirá el chat con @roneo_barber listo para enviar</span>
+          </div>
+        </button>
+
+        <p class="footer-guarantee-note">
+          🔒 No necesitas tarjeta ni registro. Pago directo en la barbería.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Detail Modal -->
+  <div class="modal-overlay" id="detailModalOverlay">
+    <div class="detail-modal" id="detailModal">
+      <button class="close-detail-btn" id="closeDetailBtn" aria-label="Cerrar detalle">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <div id="detailModalContent">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-notification" id="toastNotification" role="alert">
+    <span class="toast-icon" id="toastIcon">✓</span>
+    <span class="toast-message" id="toastMessage">Producto añadido</span>
+  </div>
+
+  <!-- JS -->
+  <script src="app.js"></script>
+</body>
+</html>
