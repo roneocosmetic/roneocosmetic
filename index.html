@@ -169,7 +169,7 @@
                 name: "Máquina Beard & Body", 
                 price: 35.00, 
                 desc: "Recorta y define tu barba con precisión, acabado profesional en casa. Apta para vello corporal.", 
-                image: "https://images.unsplash.com/photo-1621607513041-344498305c6d?w=600&auto=format&fit=crop&q=80",
+                image: "beard-body-machine.jpg",
                 features: ["Apurado extremo", "Para barba y cuerpo", "Inalámbrica recargable"] 
             },
             { 
@@ -177,7 +177,7 @@
                 name: "Cera Acabado Mate", 
                 price: 15.00, 
                 desc: "Cera de acabado completamente mate y fijación controlada, perfecta para estilos definidos sin brillos - 150ml.", 
-                image: "https://images.unsplash.com/photo-1597359023204-00d9b4b12b3d?w=600&auto=format&fit=crop&q=80",
+                image: "cera-mate.png",
                 features: ["Acabado natural sin brillo", "Volumen y movimiento", "Textura y control"] 
             },
             { 
@@ -185,7 +185,7 @@
                 name: "Cera Acabado Brillo", 
                 price: 15.00, 
                 desc: "Pomada con base acuosa, efecto mojado y fijación flexible para peinados pulidos y brillantes sin grasa - 150ml.", 
-                image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=600&auto=format&fit=crop&q=80",
+                image: "cera-brillo.png",
                 hasAroma: true,
                 features: ["Textura ligera", "Efecto mojado", "3 aromas: Coca-Cola, Chicle, One Million"] 
             },
@@ -194,15 +194,15 @@
                 name: "Crema de Rizos", 
                 price: 10.00, 
                 desc: "Tratamiento capilar que contribuye a definir rizos y controlar el encrespamiento. Aplicación sin aclarado - 250ml.", 
-                image: "https://images.unsplash.com/photo-1608248597359-f57b98d2341b?w=600&auto=format&fit=crop&q=80",
+                image: "crema-rizos.png",
                 features: ["Define rizos", "Control encrespamiento", "Uso diario sin aclarado"] 
             },
             { 
                 id: 5, 
                 name: "Keratina Líquida", 
                 price: 10.00, 
-                desc: "Tratamiento diario para cabellos encrespesados. Uso sobre cabello húmedo sin necesidad de aclarado - 200ml.", 
-                image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=600&auto=format&fit=crop&q=80",
+                desc: "Tratamiento diario para cabellos encrespados. Uso sobre cabello húmedo sin necesidad de aclarado - 200ml.", 
+                image: "keratina-liquida.png",
                 features: ["Reparación intensiva", "Anti-frizz", "Suavidad y vitalidad"] 
             }
         ];
@@ -231,7 +231,7 @@
                     </div>
                     <div class="p-5 pt-0">
                         <button onclick="handleAddToCart(${p.id})" class="w-full bg-zinc-800 hover:bg-orange-500 hover:text-black text-white font-bold py-3 rounded-xl text-xs transition duration-200 flex items-center justify-center gap-2 border border-zinc-700 hover:border-orange-500">
-                            <i class="fas fa-plus">></i> Añadir a la Cesta
+                            <i class="fas fa-plus"></i> Añadir a la Cesta
                         </button>
                     </div>
                 </div>
@@ -260,7 +260,6 @@
         }
 
         function addCartItem(productId, aroma) {
-            // Clave única para diferenciar aromas en la cesta
             const cartKey = aroma ? `${productId}_${aroma}` : `${productId}`;
             cart[cartKey] = cart[cartKey] || { productId: productId, qty: 0, aroma: aroma };
             cart[cartKey].qty += 1;
