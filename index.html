@@ -24,8 +24,8 @@
 </head>
 <body class="bg-black text-white font-sans antialiased selection:bg-orange-500 selection:text-black">
 
-    <!-- CABECERA CON LOGO Y ESTILO -->
-    <header class="bg-zinc-950 border-b border-zinc-800 py-5 px-4 sticky top-0 z-40 backdrop-blur-md bg-opacity-90">
+    <!-- CABECERA -->
+    <header class="bg-zinc-950 border-b border-zinc-800 py-5 px-4 sticky top-0 z-40">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
             <div>
                 <h1 class="text-xl sm:text-2xl font-black tracking-widest uppercase text-white">RONEO BARBER</h1>
@@ -39,12 +39,12 @@
         </div>
     </header>
 
-    <!-- AVISO INFORMATIVO -->
+    <!-- AVISO -->
     <section class="bg-zinc-900 border-b border-zinc-800 py-3 px-4 text-center text-xs text-zinc-400 font-medium">
-        <i class="fas fa-info-circle text-orange-500 mr-1"></i> Selecciona tus productos, elige aroma si aplica, y finaliza tu pedido por DM.
+        <i class="fas fa-info-circle text-orange-500 mr-1"></i> Selecciona tus productos y finaliza tu pedido por Instagram DM.
     </section>
 
-    <!-- CONTENIDO PRINCIPAL / CATÁLOGO -->
+    <!-- CONTENIDO PRINCIPAL -->
     <main class="max-w-4xl mx-auto p-4 pb-36">
         <div class="flex justify-between items-center mb-6 mt-4">
             <h2 class="text-lg sm:text-xl font-bold text-white tracking-wide">Catálogo de Productos</h2>
@@ -53,15 +53,15 @@
 
         <!-- REJILLA DE PRODUCTOS -->
         <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <!-- Renderizado dinámico desde JS -->
+            <!-- Se carga por JavaScript -->
         </div>
     </main>
 
-    <!-- BARRA INFERIOR / CARRITO FLOTANTE -->
+    <!-- CARRITO FLOTANTE -->
     <div id="cart-bar" class="fixed bottom-0 left-0 right-0 bg-zinc-950 border-t border-zinc-800 shadow-2xl p-4 z-50">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="relative bg-orange-500 text-black w-12 h-12 rounded-2xl flex items-center justify-center font-black text-lg shadow-lg shadow-orange-500/20">
+                <div class="relative bg-orange-500 text-black w-12 h-12 rounded-2xl flex items-center justify-center font-black text-lg shadow-lg">
                     <i class="fas fa-shopping-bag"></i>
                     <span id="cart-badge" class="absolute -top-1.5 -right-1.5 bg-white text-black text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-black">0</span>
                 </div>
@@ -76,111 +76,157 @@
         </div>
     </div>
 
-    <!-- MODAL DE SELECCIÓN DE AROMA (PARA CERA BRILLO) -->
+    <!-- MODAL DE AROMA -->
     <div id="aroma-modal" class="fixed inset-0 bg-black/80 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-sm w-full p-6 shadow-2xl">
             <h3 class="text-lg font-bold text-white mb-1">Elige Aroma</h3>
             <p class="text-xs text-zinc-400 mb-4">Selecciona el aroma para tu Cera Acabado Brillo:</p>
             
             <div class="space-y-2 mb-6">
-                <label class="flex items-center gap-3 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer hover:border-orange-500 transition">
+                <label class="flex items-center gap-3 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer">
                     <input type="radio" name="aroma" value="Coca-Cola" checked class="accent-orange-500">
                     <span class="text-sm font-medium text-white">Coca-Cola</span>
                 </label>
-                <label class="flex items-center gap-3 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer hover:border-orange-500 transition">
+                <label class="flex items-center gap-3 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer">
                     <input type="radio" name="aroma" value="Chicle" class="accent-orange-500">
                     <span class="text-sm font-medium text-white">Chicle</span>
                 </label>
-                <label class="flex items-center gap-3 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer hover:border-orange-500 transition">
+                <label class="flex items-center gap-3 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer">
                     <input type="radio" name="aroma" value="One Million" class="accent-orange-500">
                     <span class="text-sm font-medium text-white">One Million</span>
                 </label>
             </div>
 
             <div class="flex gap-2">
-                <button onclick="closeAromaModal()" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white font-bold py-2.5 rounded-xl text-xs transition">Cancelar</button>
-                <button onclick="confirmAddAroma()" class="flex-1 bg-orange-500 hover:bg-orange-600 text-black font-black py-2.5 rounded-xl text-xs transition">Añadir</button>
+                <button onclick="closeAromaModal()" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white font-bold py-2.5 rounded-xl text-xs">Cancelar</button>
+                <button onclick="confirmAddAroma()" class="flex-1 bg-orange-500 hover:bg-orange-600 text-black font-black py-2.5 rounded-xl text-xs">Añadir</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL DE LA CESTA / CHECKOUT -->
+    <!-- MODAL DE CESTA -->
     <div id="cart-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-sm">
         <div class="bg-zinc-900 border border-zinc-800 w-full max-w-lg rounded-t-3xl sm:rounded-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
-            
-            <!-- Cabecera del Modal -->
             <div class="p-4 border-b border-zinc-800 flex justify-between items-center bg-zinc-950">
                 <h3 class="font-bold text-base text-white">Tu Cesta de Pedido</h3>
-                <button onclick="closeCartModal()" class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 hover:bg-zinc-700 hover:text-white">
+                <button onclick="closeCartModal()" class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-
-            <!-- Lista de Artículos en la Cesta -->
-            <div id="cart-items-container" class="p-4 overflow-y-auto flex-1 divide-y divide-zinc-800">
-                <!-- Se llena mediante JS -->
-            </div>
-
-            <!-- Resumen y Botón de Envío -->
+            <div id="cart-items-container" class="p-4 overflow-y-auto flex-1 divide-y divide-zinc-800"></div>
             <div class="p-4 bg-zinc-950 border-t border-zinc-800">
                 <div class="flex justify-between items-center mb-4">
-                    <span class="text-sm font-bold text-zinc-400">Total a pagar en mano:</span>
+                    <span class="text-sm font-bold text-zinc-400">Total a pagar:</span>
                     <span id="modal-total" class="text-xl font-black text-white">0,00 €</span>
                 </div>
-
-                <button onclick="copyOrderAndOpenInstagram()" class="w-full bg-orange-500 hover:bg-orange-600 text-black font-black py-3.5 px-4 rounded-xl shadow-lg shadow-orange-500/20 transition flex items-center justify-center gap-2 text-sm">
+                <button onclick="copyOrderAndOpenInstagram()" class="w-full bg-orange-500 hover:bg-orange-600 text-black font-black py-3.5 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-sm">
                     <i class="fab fa-instagram text-lg"></i> Copiar pedido y mandar al DM
                 </button>
-
-                <p class="text-[11px] text-zinc-500 text-center mt-3">
-                    🔒 Se copiará tu lista y se abrirá Instagram para pegarlo en el chat de <strong>@roneo_barber</strong>.
-                </p>
             </div>
         </div>
     </div>
 
-    <!-- VENTANA EMERGENTE (AVISO EXPLICATIVO) -->
+    <!-- ALERTA DE PEDIDO COPIADO -->
     <div id="custom-alert" class="fixed inset-0 bg-black/85 z-[110] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-zinc-900 border border-zinc-800 rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl">
             <div class="w-14 h-14 bg-orange-500/10 text-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl font-bold border border-orange-500/20">
                 <i class="fas fa-clipboard-check"></i>
             </div>
             <h3 class="text-lg font-bold text-white mb-2">¡Pedido Copiado!</h3>
-            <p class="text-xs text-zinc-400 mb-6 leading-relaxed">
-                Se ha copiado tu pedido al portapapeles. Pégalo en el mensaje directo de <strong>@roneo_barber</strong> que se abrirá a continuación.
-            </p>
-            <button onclick="closeAlertAndRedirect()" class="w-full bg-orange-500 hover:bg-orange-600 text-black font-black py-3 rounded-xl transition text-sm shadow-lg shadow-orange-500/20">
-                Entendido, abrir Instagram
+            <p class="text-xs text-zinc-400 mb-6">Pégalo en el chat de <strong>@roneo_barber</strong>.</p>
+            <button onclick="closeAlertAndRedirect()" class="w-full bg-orange-500 hover:bg-orange-600 text-black font-black py-3 rounded-xl transition text-sm">
+                Abrir Instagram
             </button>
         </div>
     </div>
 
-    <!-- NOTIFICACIÓN FLOTANTE (TOAST) -->
-    <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 bg-zinc-900 border border-zinc-800 text-white px-4 py-2.5 rounded-xl shadow-2xl z-[100] text-xs font-medium flex items-center gap-2 opacity-0 pointer-events-none transition-opacity duration-300">
-        <i class="fas fa-check-circle text-orange-500 text-sm"></i>
-        <span id="toast-text">¡Producto añadido!</span>
-    </div>
-
-    <!-- SCRIPT JAVASCRIPT -->
+    <!-- SCRIPT -->
     <script>
         const products = [
-            { 
-                id: 1, 
-                name: "Máquina Beard & Body", 
-                price: 35.00, 
-                desc: "Recorta y define tu barba con precisión, acabado profesional en casa. Apta para vello corporal.", 
-                image: "raw_beard-body-machine.jpg",
-                features: ["Apurado extremo", "Para barba y cuerpo", "Inalámbrica recargable"] 
-            },
-            { 
-                id: 2, 
-                name: "Cera Acabado Mate", 
-                price: 15.00, 
-                desc: "Cera de acabado completamente mate y fijación controlada, perfecta para estilos definidos sin brillos - 150ml.", 
-                image: "raw_cera-mate.png",
-                features: ["Acabado natural sin brillo", "Volumen y movimiento", "Textura y control"] 
-            },
-            { 
-                id: 3, 
-                name: "Cera Acabado Brillo", 
-                price:
+            { id: 1, name: "Máquina Beard & Body", price: 35.00, desc: "Recorta y define tu barba con precisión, acabado profesional en casa.", image: "raw_beard-body-machine.jpg", features: ["Apurado extremo", "Para barba y cuerpo", "Inalámbrica recargable"] },
+            { id: 2, name: "Cera Acabado Mate", price: 15.00, desc: "Cera de acabado completamente mate y fijación controlada - 150ml.", image: "raw_cera-mate.png", features: ["Acabado natural sin brillo", "Volumen y movimiento", "Textura y control"] },
+            { id: 3, name: "Cera Acabado Brillo", price: 15.00, desc: "Pomada con base acuosa, efecto mojado y fijación flexible - 150ml.", image: "raw_cera-brillo.png", hasAroma: true, features: ["Efecto mojado", "Fijación flexible", "3 aromas disponibles"] },
+            { id: 4, name: "Crema de Rizos", price: 10.00, desc: "Tratamiento capilar que contribuye a definir rizos y controlar encrespamiento - 250ml.", image: "raw_crema-rizos.png", features: ["Define rizos", "Control encrespamiento", "Sin aclarado"] },
+            { id: 5, name: "Keratina Líquida", price: 10.00, desc: "Tratamiento diario para cabellos encrespados, uso sobre cabello húmedo - 200ml.", image: "raw_keratina-liquida.png", features: ["Reparación intensiva", "Anti-frizz", "Suavidad"] }
+        ];
+
+        let cart = {};
+        let selectedProductForAroma = null;
+
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = products.map(p => `
+                <div class="bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden flex flex-col justify-between shadow-lg">
+                    <div>
+                        <div class="relative h-48 bg-zinc-950 flex items-center justify-center p-4">
+                            <img src="${p.image}" alt="${p.name}" class="max-h-full max-w-full object-contain">
+                            <div class="absolute top-3 right-3 bg-black/80 border border-zinc-700 text-orange-500 font-black px-3 py-1 rounded-xl text-sm">
+                                ${p.price.toFixed(2)} €
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-bold text-base text-white mb-2">${p.name}</h3>
+                            <p class="text-xs text-zinc-400 mb-4">${p.desc}</p>
+                            <div class="space-y-1.5 border-t border-zinc-800 pt-3">
+                                ${p.features.map(f => `<div class="text-[11px] text-zinc-400 flex items-center gap-2"><i class="fas fa-check text-orange-500"></i> ${f}</div>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0">
+                        <button onclick="handleAddToCart(${p.id})" class="w-full bg-zinc-800 hover:bg-orange-500 hover:text-black text-white font-bold py-3 rounded-xl text-xs transition flex items-center justify-center gap-2 border border-zinc-700">
+                            <i class="fas fa-plus"></i> Añadir a la Cesta
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function handleAddToCart(productId) {
+            const product = products.find(p => p.id == productId);
+            if (product.hasAroma) {
+                selectedProductForAroma = productId;
+                document.getElementById('aroma-modal').classList.remove('hidden');
+            } else {
+                addCartItem(productId, null);
+            }
+        }
+
+        function closeAromaModal() {
+            document.getElementById('aroma-modal').classList.add('hidden');
+            selectedProductForAroma = null;
+        }
+
+        function confirmAddAroma() {
+            const aroma = document.querySelector('input[name="aroma"]:checked').value;
+            addCartItem(selectedProductForAroma, aroma);
+            closeAromaModal();
+        }
+
+        function addCartItem(productId, aroma) {
+            const key = aroma ? `${productId}_${aroma}` : `${productId}`;
+            cart[key] = cart[key] || { productId: productId, qty: 0, aroma: aroma };
+            cart[key].qty += 1;
+            updateCartUI();
+        }
+
+        function changeQuantity(key, delta) {
+            if (cart[key]) {
+                cart[key].qty += delta;
+                if (cart[key].qty <= 0) delete cart[key];
+                updateCartUI();
+            }
+        }
+
+        function updateCartUI() {
+            let totalCount = 0, totalPrice = 0, html = '';
+            for (const [key, item] of Object.entries(cart)) {
+                const p = products.find(prod => prod.id == item.productId);
+                if (p) {
+                    totalCount += item.qty;
+                    let sub = p.price * item.qty;
+                    totalPrice += sub;
+                    html += `
+                        <div class="py-3 flex justify-between items-center">
+                            <div>
+                                <h4 class="font-bold text-sm text-white">${p.name}</h4>
+                                ${item.aroma ? `<span
