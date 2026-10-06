@@ -1,180 +1,160 @@
-const products = [
-    { 
-        id: 1, 
-        name: "Máquina Beard & Body", 
-        price: 35.00, 
-        image: "beard-body-machine.jpg" 
-    },
-    { 
-        id: 2, 
-        name: "Cera Acabado Mate", 
-        price: 15.00, 
-        image: "cera-mate.png" 
-    },
-    { 
-        id: 3, 
-        name: "Cera Acabado Brillo", 
-        price: 15.00, 
-        image: "cera-brillo.png", 
-        hasAroma: true 
-    },
-    { 
-        id: 4, 
-        name: "Crema de Rizos", 
-        price: 10.00, 
-        image: "crema-rizos.png" 
-    },
-    { 
-        id: 5, 
-        name: "Keratina Líquida", 
-        price: 10.00, 
-        image: "keratina-liquida.png" 
-    }
-];
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roneo Barber Cosmetics</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-black text-white font-sans antialiased selection:bg-orange-500 selection:text-black">
 
-let cart = {};
-let selectedProductForAroma = null;
-
-function renderProducts() {
-    const grid = document.getElementById('product-grid');
-    if (!grid) return;
-    
-    grid.innerHTML = products.map(p => `
-        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden flex flex-col justify-between shadow-lg">
+    <!-- CABECERA CON LOGO PRINCIPAL AMPLIADO -->
+    <header class="bg-zinc-950 border-b border-zinc-800 py-3 px-4 sticky top-0 z-45">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <!-- LOGO AMPLIADO (usando logo.png a mayor tamaño) -->
+                <img src="logo.png" alt="Roneo Barber Cosmetics" class="h-12 sm:h-16 w-auto object-contain">
+            </div>
             <div>
-                <!-- Imagen grande con botón de zoom (+) integrado -->
-                <div class="relative h-72 sm:h-80 bg-zinc-950 flex items-center justify-center p-3 cursor-pointer group" onclick="openImageModal('${p.image}', '${p.name}')">
-                    <img src="${p.image}" alt="${p.name}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300">
-                    
-                    <!-- Botón flotante con símbolo de más (+) para ampliar -->
-                    <div class="absolute bottom-3 left-3 bg-black/80 hover:bg-orange-500 hover:text-black text-white border border-zinc-700 hover:border-orange-500 w-9 h-9 rounded-xl flex items-center justify-center shadow-md transition duration-200">
-                        <i class="fas fa-plus text-xs"></i>
-                    </div>
+                <a href="https://instagram.com/roneo_barber" target="_blank" class="bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2 text-zinc-200">
+                    <i class="fab fa-instagram text-orange-500 text-base"></i> @roneo_barber
+                </a>
+            </div>
+        </div>
+    </header>
 
-                    <div class="absolute top-3 right-3 bg-black/80 border border-zinc-700 text-orange-500 font-black px-3 py-1.5 rounded-xl text-sm shadow-md">
-                        ${p.price.toFixed(2)} €
-                    </div>
+    <!-- AVISO -->
+    <section class="bg-zinc-900 border-b border-zinc-800 py-3 px-4 text-center text-xs text-zinc-400 font-medium">
+        <i class="fas fa-info-circle text-orange-500 mr-1"></i> Selecciona tus productos y finaliza tu pedido por Instagram DM.
+    </section>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="max-w-4xl mx-auto p-4 pb-36">
+        <div class="flex justify-between items-center mb-6 mt-4">
+            <h2 class="text-lg sm:text-xl font-bold text-white tracking-wide">Catálogo de Productos</h2>
+            <span id="product-count" class="text-xs text-zinc-500 font-medium">5 artículos</span>
+        </div>
+
+        <!-- REJILLA DE PRODUCTOS -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Se carga mediante app.js -->
+        </div>
+    </main>
+
+    <!-- CARRITO FLOTANTE -->
+    <div id="cart-bar" class="fixed bottom-0 left-0 right-0 bg-zinc-950 border-t border-zinc-800 shadow-2xl p-4 z-50">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="relative bg-orange-500 text-black w-12 h-12 rounded-2xl flex items-center justify-center font-black text-lg shadow-lg">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-badge" class="absolute -top-1.5 -right-1.5 bg-white text-black text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-black">0</span>
                 </div>
-                
-                <!-- Solo el nombre del producto -->
-                <div class="p-4">
-                    <h3 class="font-bold text-base sm:text-lg text-white">${p.name}</h3>
+                <div>
+                    <p class="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold">Total estimado</p>
+                    <p id="cart-total" class="text-lg font-black text-white">0,00 €</p>
                 </div>
             </div>
-            <div class="p-4 pt-0">
-                <button onclick="handleAddToCart(${p.id})" class="w-full bg-zinc-800 hover:bg-orange-500 hover:text-black text-white font-bold py-3 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-2 border border-zinc-700 hover:border-orange-500">
-                    <i class="fas fa-plus"></i> Añadir a la Cesta
+            <button onclick="openCartModal()" class="bg-orange-500 hover:bg-orange-600 text-black font-black py-3 px-6 rounded-xl shadow-lg transition text-sm flex items-center gap-2">
+                Ver Cesta <i class="fas fa-chevron-right text-xs"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL DE SELECCIÓN DE AROMA -->
+    <div id="aroma-modal" class="fixed inset-0 bg-black/80 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-sm w-full p-6 shadow-2xl">
+            <h3 class="text-lg font-bold text-white mb-1">Elige Aroma</h3>
+            <p class="text-xs text-zinc-400 mb-4">Selecciona el aroma para tu Cera Acabado Brillo:</p>
+            
+            <div class="space-y-2 mb-6">
+                <label class="flex items-center gap-3 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer">
+                    <input type="radio" name="aroma" value="Coca-Cola" checked class="accent-orange-500">
+                    <span class="text-sm font-medium text-white">Coca-Cola</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer">
+                    <input type="radio" name="aroma" value="Chicle" class="accent-orange-500">
+                    <span class="text-sm font-medium text-white">Chicle</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer">
+                    <input type="radio" name="aroma" value="One Million" class="accent-orange-500">
+                    <span class="text-sm font-medium text-white">One Million</span>
+                </label>
+            </div>
+
+            <div class="flex gap-2">
+                <button onclick="closeAromaModal()" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white font-bold py-2.5 rounded-xl text-xs">Cancelar</button>
+                <button onclick="confirmAddAroma()" class="flex-1 bg-orange-500 hover:bg-orange-600 text-black font-black py-2.5 rounded-xl text-xs">Añadir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CESTA -->
+    <div id="cart-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-sm">
+        <div class="bg-zinc-900 border border-zinc-800 w-full max-w-lg rounded-t-3xl sm:rounded-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            <div class="p-4 border-b border-zinc-800 flex justify-between items-center bg-zinc-950">
+                <h3 class="font-bold text-base text-white">Tu Cesta de Pedido</h3>
+                <button onclick="closeCartModal()" class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="cart-items-container" class="p-4 overflow-y-auto flex-1 divide-y divide-zinc-800"></div>
+            <div class="p-4 bg-zinc-950 border-t border-zinc-800">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-sm font-bold text-zinc-400">Total a pagar:</span>
+                    <span id="modal-total" class="text-xl font-black text-white">0,00 €</span>
+                </div>
+                <button onclick="copyOrderAndOpenInstagram()" class="w-full bg-orange-500 hover:bg-orange-600 text-black font-black py-3.5 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-sm">
+                    <i class="fab fa-instagram text-lg"></i> Copiar pedido y mandar al DM
                 </button>
             </div>
         </div>
-    `).join('');
-}
+    </div>
 
-function openImageModal(imgSrc, imgTitle) {
-    document.getElementById('modal-img-element').src = imgSrc;
-    document.getElementById('modal-img-title').innerText = imgTitle;
-    document.getElementById('image-modal').classList.remove('hidden');
-}
+    <!-- ALERTA MEJORADA DE PEDIDO COPIADO -->
+    <div id="custom-alert" class="fixed inset-0 bg-black/85 z-[110] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl">
+            <div class="w-14 h-14 bg-orange-500/10 text-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl font-bold border border-orange-500/20">
+                <i class="fas fa-clipboard-check"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">¡Pedido Copiado!</h3>
+            <p class="text-xs text-zinc-300 mb-6 leading-relaxed">
+                Tu pedido se ha copiado al portapapeles. A continuación se abrirá Instagram: <strong class="text-orange-500">pégalo directamente en el chat</strong> de @roneo_barber para enviarlo.
+            </p>
+            <button onclick="closeAlertAndRedirect()" class="w-full bg-orange-500 hover:bg-orange-600 text-black font-black py-3 rounded-xl transition text-sm shadow-lg shadow-orange-500/20">
+                Abrir Instagram y pegar
+            </button>
+        </div>
+    </div>
 
-function closeImageModal() {
-    document.getElementById('image-modal').classList.add('hidden');
-}
+    <!-- MODAL PARA AMPLIAR IMAGEN DE PRODUCTO -->
+    <div id="image-modal" class="fixed inset-0 bg-black/95 z-[120] hidden flex items-center justify-center p-4 backdrop-blur-md" onclick="closeImageModal()">
+        <div class="relative max-w-lg w-full max-h-[90vh] flex flex-col items-center" onclick="event.stopPropagation()">
+            <button onclick="closeImageModal()" class="absolute -top-12 right-0 text-white bg-zinc-800 hover:bg-zinc-700 w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="modal-img-element" src="" alt="Ampliación" class="max-w-full max-h-[80vh] object-contain rounded-2xl border border-zinc-800 shadow-2xl">
+            <p id="modal-img-title" class="text-white font-bold text-base mt-4 text-center"></p>
+        </div>
+    </div>
 
-function handleAddToCart(productId) {
-    const product = products.find(p => p.id == productId);
-    if (product.hasAroma) {
-        selectedProductForAroma = productId;
-        document.getElementById('aroma-modal').classList.remove('hidden');
-    } else {
-        addCartItem(productId, null);
-    }
-}
-
-function closeAromaModal() {
-    document.getElementById('aroma-modal').classList.add('hidden');
-    selectedProductForAroma = null;
-}
-
-function confirmAddAroma() {
-    const aroma = document.querySelector('input[name="aroma"]:checked').value;
-    addCartItem(selectedProductForAroma, aroma);
-    closeAromaModal();
-}
-
-function addCartItem(productId, aroma) {
-    const key = aroma ? `${productId}_${aroma}` : `${productId}`;
-    cart[key] = cart[key] || { productId: productId, qty: 0, aroma: aroma };
-    cart[key].qty += 1;
-    updateCartUI();
-}
-
-function changeQuantity(key, delta) {
-    if (cart[key]) {
-        cart[key].qty += delta;
-        if (cart[key].qty <= 0) delete cart[key];
-        updateCartUI();
-    }
-}
-
-function updateCartUI() {
-    let totalCount = 0, totalPrice = 0, html = '';
-    for (const [key, item] of Object.entries(cart)) {
-        const p = products.find(prod => prod.id == item.productId);
-        if (p) {
-            totalCount += item.qty;
-            let sub = p.price * item.qty;
-            totalPrice += sub;
-            html += `
-                <div class="py-3 flex justify-between items-center">
-                    <div>
-                        <h4 class="font-bold text-sm text-white">${p.name}</h4>
-                        ${item.aroma ? `<span class="text-[11px] text-orange-500">Aroma: ${item.aroma}</span><br>` : ''}
-                        <span class="text-xs text-zinc-400">${p.price.toFixed(2)} € x ${item.qty}</span>
-                    </div>
-                    <div class="flex items-center gap-2 bg-zinc-950 border border-zinc-800 rounded-xl p-1">
-                        <button onclick="changeQuantity('${key}', -1)" class="w-7 h-7 bg-zinc-800 rounded-lg text-white font-bold">-</button>
-                        <span class="text-sm font-bold w-4 text-center">${item.qty}</span>
-                        <button onclick="changeQuantity('${key}', 1)" class="w-7 h-7 bg-zinc-800 rounded-lg text-white font-bold">+</button>
-                    </div>
-                </div>`;
-        }
-    }
-    document.getElementById('cart-badge').innerText = totalCount;
-    document.getElementById('cart-total').innerText = totalPrice.toFixed(2) + ' €';
-    document.getElementById('modal-total').innerText = totalPrice.toFixed(2) + ' €';
-    document.getElementById('cart-items-container').innerHTML = totalCount === 0 ? `<div class="text-center py-12 text-zinc-600 text-xs">Tu cesta está vacía</div>` : html;
-}
-
-function openCartModal() { document.getElementById('cart-modal').classList.remove('hidden'); }
-function closeCartModal() { document.getElementById('cart-modal').classList.add('hidden'); }
-
-function copyOrderAndOpenInstagram() {
-    let totalCount = Object.values(cart).reduce((acc, item) => acc + item.qty, 0);
-    if (totalCount === 0) return alert("Añade algún producto primero");
-
-    let text = "¡Hola! Me gustaría hacer el siguiente pedido:\n\n";
-    let total = 0;
-    for (const item of Object.values(cart)) {
-        const p = products.find(prod => prod.id == item.productId);
-        if (p) {
-            let sub = p.price * item.qty;
-            total += sub;
-            let aromaText = item.aroma ? ` [Aroma: ${item.aroma}]` : '';
-            text += `▪ ${item.qty}x ${p.name}${aromaText} (${sub.toFixed(2)} €)\n`;
-        }
-    }
-    text += `\nTotal: ${total.toFixed(2)} €\n¿Hay disponibilidad?`;
-
-    navigator.clipboard.writeText(text).then(() => {
-        closeCartModal();
-        document.getElementById('custom-alert').classList.remove('hidden');
-    });
-}
-
-function closeAlertAndRedirect() {
-    document.getElementById('custom-alert').classList.add('hidden');
-    window.location.href = "https://ig.me/m/roneo_barber";
-}
-
-// Ejecutar al cargar
-renderProducts();
+    <!-- SCRIPT EXTERNO (app.js) -->
+    <script src="app.js"></script>
+</body>
+</html>
