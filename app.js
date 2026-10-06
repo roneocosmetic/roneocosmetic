@@ -3,42 +3,32 @@ const products = [
         id: 1, 
         name: "Máquina Beard & Body", 
         price: 35.00, 
-        desc: "Recorta y define tu barba con precisión, acabado profesional en casa.", 
-        image: "beard-body-machine.jpg", 
-        features: ["Apurado extremo", "Para barba y cuerpo", "Inalámbrica recargable"] 
+        image: "beard-body-machine.jpg" 
     },
     { 
         id: 2, 
         name: "Cera Acabado Mate", 
         price: 15.00, 
-        desc: "Cera de acabado completamente mate y fijación controlada - 150ml.", 
-        image: "cera-mate.png", 
-        features: ["Acabado natural sin brillo", "Volumen y movimiento", "Textura y control"] 
+        image: "cera-mate.png" 
     },
     { 
         id: 3, 
         name: "Cera Acabado Brillo", 
         price: 15.00, 
-        desc: "Pomada con base acuosa, efecto mojado y fijación flexible - 150ml.", 
         image: "cera-brillo.png", 
-        hasAroma: true, 
-        features: ["Efecto mojado", "Fijación flexible", "3 aromas disponibles"] 
+        hasAroma: true 
     },
     { 
         id: 4, 
         name: "Crema de Rizos", 
         price: 10.00, 
-        desc: "Tratamiento capilar que contribuye a definir rizos y controlar encrespamiento - 250ml.", 
-        image: "crema-rizos.png", 
-        features: ["Define rizos", "Control encrespamiento", "Sin aclarado"] 
+        image: "crema-rizos.png" 
     },
     { 
         id: 5, 
         name: "Keratina Líquida", 
         price: 10.00, 
-        desc: "Tratamiento diario para cabellos encrespados, uso sobre cabello húmedo - 200ml.", 
-        image: "keratina-liquida.png", 
-        features: ["Reparación intensiva", "Anti-frizz", "Suavidad"] 
+        image: "keratina-liquida.png" 
     }
 ];
 
@@ -52,22 +42,20 @@ function renderProducts() {
     grid.innerHTML = products.map(p => `
         <div class="bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden flex flex-col justify-between shadow-lg">
             <div>
-                <div class="relative h-48 bg-zinc-950 flex items-center justify-center p-4">
+                <!-- Imagen grande y limpia (h-80 en pantallas grandes para que se lea perfectamente la descripción de la foto) -->
+                <div class="relative h-72 sm:h-80 bg-zinc-950 flex items-center justify-center p-3">
                     <img src="${p.image}" alt="${p.name}" class="max-h-full max-w-full object-contain">
-                    <div class="absolute top-3 right-3 bg-black/80 border border-zinc-700 text-orange-500 font-black px-3 py-1 rounded-xl text-sm">
+                    <div class="absolute top-3 right-3 bg-black/80 border border-zinc-700 text-orange-500 font-black px-3 py-1.5 rounded-xl text-sm shadow-md">
                         ${p.price.toFixed(2)} €
                     </div>
                 </div>
-                <div class="p-5">
-                    <h3 class="font-bold text-base text-white mb-2">${p.name}</h3>
-                    <p class="text-xs text-zinc-400 mb-4">${p.desc}</p>
-                    <div class="space-y-1.5 border-t border-zinc-800 pt-3">
-                        ${p.features.map(f => `<div class="text-[11px] text-zinc-400 flex items-center gap-2"><i class="fas fa-check text-orange-500"></i> ${f}</div>`).join('')}
-                    </div>
+                <!-- Solo el nombre del producto, sin descripciones de texto repetidas -->
+                <div class="p-4">
+                    <h3 class="font-bold text-base sm:text-lg text-white">${p.name}</h3>
                 </div>
             </div>
-            <div class="p-5 pt-0">
-                <button onclick="handleAddToCart(${p.id})" class="w-full bg-zinc-800 hover:bg-orange-500 hover:text-black text-white font-bold py-3 rounded-xl text-xs transition flex items-center justify-center gap-2 border border-zinc-700">
+            <div class="p-4 pt-0">
+                <button onclick="handleAddToCart(${p.id})" class="w-full bg-zinc-800 hover:bg-orange-500 hover:text-black text-white font-bold py-3 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-2 border border-zinc-700 hover:border-orange-500">
                     <i class="fas fa-plus"></i> Añadir a la Cesta
                 </button>
             </div>
@@ -150,7 +138,7 @@ function copyOrderAndOpenInstagram() {
     let text = "¡Hola! Me gustaría hacer el siguiente pedido:\n\n";
     let total = 0;
     for (const item of Object.values(cart)) {
-        const p = products.products ? null : products.find(prod => prod.id == item.productId);
+        const p = products.find(prod => prod.id == item.productId);
         if (p) {
             let sub = p.price * item.qty;
             total += sub;
