@@ -58,4 +58,129 @@
     </main>
 
     <!-- BARRA INFERIOR / CARRITO FLOTANTE -->
-    <div id="cart-bar" class="fixed bottom-0 left-0 right-0 bg-zinc-950 border-t border-zinc-800 shadow-2
+    <div id="cart-bar" class="fixed bottom-0 left-0 right-0 bg-zinc-950 border-t border-zinc-800 shadow-2xl p-4 z-50">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="relative bg-orange-500 text-black w-12 h-12 rounded-2xl flex items-center justify-center font-black text-lg shadow-lg shadow-orange-500/20">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-badge" class="absolute -top-1.5 -right-1.5 bg-white text-black text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-black">0</span>
+                </div>
+                <div>
+                    <p class="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold">Total estimado</p>
+                    <p id="cart-total" class="text-lg font-black text-white">0,00 €</p>
+                </div>
+            </div>
+            <button onclick="openCartModal()" class="bg-orange-500 hover:bg-orange-600 text-black font-black py-3 px-6 rounded-xl shadow-lg transition text-sm flex items-center gap-2">
+                Ver Cesta <i class="fas fa-chevron-right text-xs"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL DE SELECCIÓN DE AROMA (PARA CERA BRILLO) -->
+    <div id="aroma-modal" class="fixed inset-0 bg-black/80 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-sm w-full p-6 shadow-2xl">
+            <h3 class="text-lg font-bold text-white mb-1">Elige Aroma</h3>
+            <p class="text-xs text-zinc-400 mb-4">Selecciona el aroma para tu Cera Acabado Brillo:</p>
+            
+            <div class="space-y-2 mb-6">
+                <label class="flex items-center gap-3 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer hover:border-orange-500 transition">
+                    <input type="radio" name="aroma" value="Coca-Cola" checked class="accent-orange-500">
+                    <span class="text-sm font-medium text-white">Coca-Cola</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer hover:border-orange-500 transition">
+                    <input type="radio" name="aroma" value="Chicle" class="accent-orange-500">
+                    <span class="text-sm font-medium text-white">Chicle</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer hover:border-orange-500 transition">
+                    <input type="radio" name="aroma" value="One Million" class="accent-orange-500">
+                    <span class="text-sm font-medium text-white">One Million</span>
+                </label>
+            </div>
+
+            <div class="flex gap-2">
+                <button onclick="closeAromaModal()" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white font-bold py-2.5 rounded-xl text-xs transition">Cancelar</button>
+                <button onclick="confirmAddAroma()" class="flex-1 bg-orange-500 hover:bg-orange-600 text-black font-black py-2.5 rounded-xl text-xs transition">Añadir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE LA CESTA / CHECKOUT -->
+    <div id="cart-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-sm">
+        <div class="bg-zinc-900 border border-zinc-800 w-full max-w-lg rounded-t-3xl sm:rounded-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            
+            <!-- Cabecera del Modal -->
+            <div class="p-4 border-b border-zinc-800 flex justify-between items-center bg-zinc-950">
+                <h3 class="font-bold text-base text-white">Tu Cesta de Pedido</h3>
+                <button onclick="closeCartModal()" class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 hover:bg-zinc-700 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Lista de Artículos en la Cesta -->
+            <div id="cart-items-container" class="p-4 overflow-y-auto flex-1 divide-y divide-zinc-800">
+                <!-- Se llena mediante JS -->
+            </div>
+
+            <!-- Resumen y Botón de Envío -->
+            <div class="p-4 bg-zinc-950 border-t border-zinc-800">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-sm font-bold text-zinc-400">Total a pagar en mano:</span>
+                    <span id="modal-total" class="text-xl font-black text-white">0,00 €</span>
+                </div>
+
+                <button onclick="copyOrderAndOpenInstagram()" class="w-full bg-orange-500 hover:bg-orange-600 text-black font-black py-3.5 px-4 rounded-xl shadow-lg shadow-orange-500/20 transition flex items-center justify-center gap-2 text-sm">
+                    <i class="fab fa-instagram text-lg"></i> Copiar pedido y mandar al DM
+                </button>
+
+                <p class="text-[11px] text-zinc-500 text-center mt-3">
+                    🔒 Se copiará tu lista y se abrirá Instagram para pegarlo en el chat de <strong>@roneo_barber</strong>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- VENTANA EMERGENTE (AVISO EXPLICATIVO) -->
+    <div id="custom-alert" class="fixed inset-0 bg-black/85 z-[110] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl">
+            <div class="w-14 h-14 bg-orange-500/10 text-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl font-bold border border-orange-500/20">
+                <i class="fas fa-clipboard-check"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">¡Pedido Copiado!</h3>
+            <p class="text-xs text-zinc-400 mb-6 leading-relaxed">
+                Se ha copiado tu pedido al portapapeles. Pégalo en el mensaje directo de <strong>@roneo_barber</strong> que se abrirá a continuación.
+            </p>
+            <button onclick="closeAlertAndRedirect()" class="w-full bg-orange-500 hover:bg-orange-600 text-black font-black py-3 rounded-xl transition text-sm shadow-lg shadow-orange-500/20">
+                Entendido, abrir Instagram
+            </button>
+        </div>
+    </div>
+
+    <!-- NOTIFICACIÓN FLOTANTE (TOAST) -->
+    <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 bg-zinc-900 border border-zinc-800 text-white px-4 py-2.5 rounded-xl shadow-2xl z-[100] text-xs font-medium flex items-center gap-2 opacity-0 pointer-events-none transition-opacity duration-300">
+        <i class="fas fa-check-circle text-orange-500 text-sm"></i>
+        <span id="toast-text">¡Producto añadido!</span>
+    </div>
+
+    <!-- SCRIPT JAVASCRIPT -->
+    <script>
+        const products = [
+            { 
+                id: 1, 
+                name: "Máquina Beard & Body", 
+                price: 35.00, 
+                desc: "Recorta y define tu barba con precisión, acabado profesional en casa. Apta para vello corporal.", 
+                image: "raw_beard-body-machine.jpg",
+                features: ["Apurado extremo", "Para barba y cuerpo", "Inalámbrica recargable"] 
+            },
+            { 
+                id: 2, 
+                name: "Cera Acabado Mate", 
+                price: 15.00, 
+                desc: "Cera de acabado completamente mate y fijación controlada, perfecta para estilos definidos sin brillos - 150ml.", 
+                image: "raw_cera-mate.png",
+                features: ["Acabado natural sin brillo", "Volumen y movimiento", "Textura y control"] 
+            },
+            { 
+                id: 3, 
+                name: "Cera Acabado Brillo", 
+                price:
