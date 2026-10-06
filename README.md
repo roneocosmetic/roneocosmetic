@@ -1,76 +1,376 @@
-# 💈 Roneo Barber Cosmetics — Catálogo Web Móvil
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roneo Barber Cosmetics</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-black text-white font-sans antialiased selection:bg-orange-500 selection:text-black">
 
-Catálogo interactivo y visual tipo *mobile-first e-commerce* para **Roneo Barber Cosmetics**, diseñado específicamente para pantallas de smartphone (iPhone y Android) con estética oscura premium de barbería y checkout directo al chat de Instagram (`https://ig.me/m/roneo_barber`).
+    <!-- CABECERA CON LOGO Y ESTILO -->
+    <header class="bg-zinc-950 border-b border-zinc-800 py-5 px-4 sticky top-0 z-40 backdrop-blur-md bg-opacity-90">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-xl sm:text-2xl font-black tracking-widest uppercase text-white">RONEO BARBER</h1>
+                <p class="text-[10px] sm:text-xs text-orange-500 font-semibold tracking-widest uppercase">COSMETICS</p>
+            </div>
+            <div>
+                <a href="https://instagram.com/roneo_barber" target="_blank" class="bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2 text-zinc-200">
+                    <i class="fab fa-instagram text-orange-500 text-base"></i> @roneo_barber
+                </a>
+            </div>
+        </div>
+    </header>
 
----
+    <!-- AVISO INFORMATIVO -->
+    <section class="bg-zinc-900 border-b border-zinc-800 py-3 px-4 text-center text-xs text-zinc-400 font-medium">
+        <i class="fas fa-info-circle text-orange-500 mr-1"></i> Selecciona tus productos, elige aroma si aplica, y finaliza tu pedido por DM.
+    </section>
 
-## 🚀 Características Implementadas
+    <!-- CONTENIDO PRINCIPAL / CATÁLOGO -->
+    <main class="max-w-4xl mx-auto p-4 pb-36">
+        <div class="flex justify-between items-center mb-6 mt-4">
+            <h2 class="text-lg sm:text-xl font-bold text-white tracking-wide">Catálogo de Productos</h2>
+            <span id="product-count" class="text-xs text-zinc-500 font-medium">5 artículos</span>
+        </div>
 
-1. **Cabecera Explicativa Integrada:**
-   - Mensaje destacado en la parte superior:  
-     > *"Para comprar, añade los productos que quieras al carrito y pulsa en finalizar. Se abrirá automáticamente un mensaje de Instagram listo para enviar con tu pedido para recoger y pagar en mano en la barbería."*
+        <!-- REJILLA DE PRODUCTOS -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Renderizado dinámico desde JS -->
+        </div>
+    </main>
 
-2. **Listado de Productos Oficiales (Cuadrícula Móvil 2 Columnas):**
-   - **Keratina Líquida** — `10 €` (Tratamiento reconstructor y antifrizz)
-   - **Cera Brillo** — `15 €` (Pomada fijación media-fuerte con brillo clásico)
-   - **Crema Rizos** — `10 €` (Definición e hidratación sin apelmazar)
-   - **Cera Mate** — `15 €` (Pasta fijación fuerte y acabado mate seco)
-   - **Beard & Body Machine** — `35 €` (Recortadora profesional T-Blade con batería de litio)
+    <!-- BARRA INFERIOR / CARRITO FLOTANTE -->
+    <div id="cart-bar" class="fixed bottom-0 left-0 right-0 bg-zinc-950 border-t border-zinc-800 shadow-2xl p-4 z-50">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="relative bg-orange-500 text-black w-12 h-12 rounded-2xl flex items-center justify-center font-black text-lg shadow-lg shadow-orange-500/20">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-badge" class="absolute -top-1.5 -right-1.5 bg-white text-black text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-black">0</span>
+                </div>
+                <div>
+                    <p class="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold">Total estimado</p>
+                    <p id="cart-total" class="text-lg font-black text-white">0,00 €</p>
+                </div>
+            </div>
+            <button onclick="openCartModal()" class="bg-orange-500 hover:bg-orange-600 text-black font-black py-3 px-6 rounded-xl shadow-lg transition text-sm flex items-center gap-2">
+                Ver Cesta <i class="fas fa-chevron-right text-xs"></i>
+            </button>
+        </div>
+    </div>
 
-3. **Experiencia de Carrito de Compras Móvil:**
-   - Botón directo de `Añadir` en cada tarjeta de producto.
-   - Controles de cantidad interactivos (`-` `1` `+`) directamente en la tarjeta una vez añadido.
-   - **Barra flotante inferior adhesiva** con indicador de cantidad animado (*badge bounce*), total acumulado y botón `Ver Carrito`.
-   - **Cesta estilo Drawer / Bottom Sheet iOS**: Deslizable hacia arriba con desglose por producto, selector de cantidad, eliminación rápida y campo opcional para el nombre del cliente.
+    <!-- MODAL DE SELECCIÓN DE AROMA (PARA CERA BRILLO) -->
+    <div id="aroma-modal" class="fixed inset-0 bg-black/80 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-sm w-full p-6 shadow-2xl">
+            <h3 class="text-lg font-bold text-white mb-1">Elige Aroma</h3>
+            <p class="text-xs text-zinc-400 mb-4">Selecciona el aroma para tu Cera Acabado Brillo:</p>
+            
+            <div class="space-y-2 mb-6">
+                <label class="flex items-center gap-3 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer hover:border-orange-500 transition">
+                    <input type="radio" name="aroma" value="Coca-Cola" checked class="accent-orange-500">
+                    <span class="text-sm font-medium text-white">Coca-Cola</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer hover:border-orange-500 transition">
+                    <input type="radio" name="aroma" value="Chicle" class="accent-orange-500">
+                    <span class="text-sm font-medium text-white">Chicle</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer hover:border-orange-500 transition">
+                    <input type="radio" name="aroma" value="One Million" class="accent-orange-500">
+                    <span class="text-sm font-medium text-white">One Million</span>
+                </label>
+            </div>
 
-4. **Checkout Directo a Instagram:**
-   - Al pulsar `Finalizar Pedido en Instagram`:
-     - Compila el pedido con todos los artículos seleccionados, cantidades y precio total.
-     - Formato:  
-       ```text
-       Hola, quiero encargar:
-       • 1x Keratina Líquida (10 €)
-       • 2x Cera Mate (30 €)
+            <div class="flex gap-2">
+                <button onclick="closeAromaModal()" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white font-bold py-2.5 rounded-xl text-xs transition">Cancelar</button>
+                <button onclick="confirmAddAroma()" class="flex-1 bg-orange-500 hover:bg-orange-600 text-black font-black py-2.5 rounded-xl text-xs transition">Añadir</button>
+            </div>
+        </div>
+    </div>
 
-       Total: 40 €
-       Quedamos para recoger y pagar en mano en la barbería.
-       ```
-     - Copia automáticamente el pedido completo al portapapeles.
-     - Redirige directamente a `https://ig.me/m/roneo_barber`, abriendo la aplicación de Instagram en móviles.
+    <!-- MODAL DE LA CESTA / CHECKOUT -->
+    <div id="cart-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-sm">
+        <div class="bg-zinc-900 border border-zinc-800 w-full max-w-lg rounded-t-3xl sm:rounded-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            
+            <!-- Cabecera del Modal -->
+            <div class="p-4 border-b border-zinc-800 flex justify-between items-center bg-zinc-950">
+                <h3 class="font-bold text-base text-white">Tu Cesta de Pedido</h3>
+                <button onclick="closeCartModal()" class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 hover:bg-zinc-700 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
 
-5. **Diseño Visual de Barbería:**
-   - Paleta oscura (*obsidian dark* `#0a0b0e`, grafito, detalles en dorado ámbar `#d8a24a`).
-   - Soporte para áreas seguras de iPhone (*Safe Area Insets* para notch y barra inferior).
-   - Efectos de desenfoque *glassmorphism*, microinteracciones táctiles y soporte de vibración háptica.
-   - Modal de detalle ampliado al pulsar sobre la imagen o el título de cualquier artículo.
+            <!-- Lista de Artículos en la Cesta -->
+            <div id="cart-items-container" class="p-4 overflow-y-auto flex-1 divide-y divide-zinc-800">
+                <!-- Se llena mediante JS -->
+            </div>
 
----
+            <!-- Resumen y Botón de Envío -->
+            <div class="p-4 bg-zinc-950 border-t border-zinc-800">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-sm font-bold text-zinc-400">Total a pagar en mano:</span>
+                    <span id="modal-total" class="text-xl font-black text-white">0,00 €</span>
+                </div>
 
-## 📁 Estructura del Proyecto
+                <button onclick="copyOrderAndOpenInstagram()" class="w-full bg-orange-500 hover:bg-orange-600 text-black font-black py-3.5 px-4 rounded-xl shadow-lg shadow-orange-500/20 transition flex items-center justify-center gap-2 text-sm">
+                    <i class="fab fa-instagram text-lg"></i> Copiar pedido y mandar al DM
+                </button>
 
-```text
-roneo-barber-cosmetics/
-├── index.html       # Estructura semántica HTML5 optimizada para móviles
-├── style.css        # Hoja de estilos moderna, tema oscuro de barbería y responsive
-├── app.js           # Lógica del carrito, estado, modal y conexión con Instagram
-└── README.md        # Documentación de uso y despliegue
-```
+                <p class="text-[11px] text-zinc-500 text-center mt-3">
+                    🔒 Se copiará tu lista y se abrirá Instagram para pegarlo en el chat de <strong>@roneo_barber</strong>.
+                </p>
+            </div>
+        </div>
+    </div>
 
----
+    <!-- VENTANA EMERGENTE (AVISO EXPLICATIVO) -->
+    <div id="custom-alert" class="fixed inset-0 bg-black/85 z-[110] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl">
+            <div class="w-14 h-14 bg-orange-500/10 text-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl font-bold border border-orange-500/20">
+                <i class="fas fa-clipboard-check"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">¡Pedido Copiado!</h3>
+            <p class="text-xs text-zinc-400 mb-6 leading-relaxed">
+                Se ha copiado tu pedido al portapapeles. Pégalo en el mensaje directo de <strong>@roneo_barber</strong> que se abrirá a continuación.
+            </p>
+            <button onclick="closeAlertAndRedirect()" class="w-full bg-orange-500 hover:bg-orange-600 text-black font-black py-3 rounded-xl transition text-sm shadow-lg shadow-orange-500/20">
+                Entendido, abrir Instagram
+            </button>
+        </div>
+    </div>
 
-## 📱 Cómo Probar en Local
+    <!-- NOTIFICACIÓN FLOTANTE (TOAST) -->
+    <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 bg-zinc-900 border border-zinc-800 text-white px-4 py-2.5 rounded-xl shadow-2xl z-[100] text-xs font-medium flex items-center gap-2 opacity-0 pointer-events-none transition-opacity duration-300">
+        <i class="fas fa-check-circle text-orange-500 text-sm"></i>
+        <span id="toast-text">¡Producto añadido!</span>
+    </div>
 
-Puedes abrir el archivo directamente en tu navegador habitual:
-- Haz doble clic en `index.html` o ábrelo en Google Chrome, Microsoft Edge o Safari.
-- Para simular la vista de un **iPhone**:
-  1. Pulsa `F12` en tu navegador.
-  2. Haz clic en el icono de **Dispositivos Móviles** (o pulsa `Ctrl + Shift + M`).
-  3. Selecciona un modelo como **iPhone 14 Pro / iPhone 15**.
+    <!-- SCRIPT JAVASCRIPT -->
+    <script>
+        const products = [
+            { 
+                id: 1, 
+                name: "Máquina Beard & Body", 
+                price: 35.00, 
+                desc: "Recorta y define tu barba con precisión, acabado profesional en casa. Apta para vello corporal.", 
+                image: "https://images.unsplash.com/photo-1621607513041-344498305c6d?w=600&auto=format&fit=crop&q=80",
+                features: ["Apurado extremo", "Para barba y cuerpo", "Inalámbrica recargable"] 
+            },
+            { 
+                id: 2, 
+                name: "Cera Acabado Mate", 
+                price: 15.00, 
+                desc: "Cera de acabado completamente mate y fijación controlada, perfecta para estilos definidos sin brillos - 150ml.", 
+                image: "https://images.unsplash.com/photo-1597359023204-00d9b4b12b3d?w=600&auto=format&fit=crop&q=80",
+                features: ["Acabado natural sin brillo", "Volumen y movimiento", "Textura y control"] 
+            },
+            { 
+                id: 3, 
+                name: "Cera Acabado Brillo", 
+                price: 15.00, 
+                desc: "Pomada con base acuosa, efecto mojado y fijación flexible para peinados pulidos y brillantes sin grasa - 150ml.", 
+                image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=600&auto=format&fit=crop&q=80",
+                hasAroma: true,
+                features: ["Textura ligera", "Efecto mojado", "3 aromas: Coca-Cola, Chicle, One Million"] 
+            },
+            { 
+                id: 4, 
+                name: "Crema de Rizos", 
+                price: 10.00, 
+                desc: "Tratamiento capilar que contribuye a definir rizos y controlar el encrespamiento. Aplicación sin aclarado - 250ml.", 
+                image: "https://images.unsplash.com/photo-1608248597359-f57b98d2341b?w=600&auto=format&fit=crop&q=80",
+                features: ["Define rizos", "Control encrespamiento", "Uso diario sin aclarado"] 
+            },
+            { 
+                id: 5, 
+                name: "Keratina Líquida", 
+                price: 10.00, 
+                desc: "Tratamiento diario para cabellos encrespesados. Uso sobre cabello húmedo sin necesidad de aclarado - 200ml.", 
+                image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=600&auto=format&fit=crop&q=80",
+                features: ["Reparación intensiva", "Anti-frizz", "Suavidad y vitalidad"] 
+            }
+        ];
 
----
+        let cart = {};
+        let selectedProductForAroma = null;
 
-## 🌐 Cómo Publicarlo para la Bio de Instagram
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = products.map(p => `
+                <div class="bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden flex flex-col justify-between shadow-lg">
+                    <div>
+                        <div class="relative h-48 overflow-hidden bg-zinc-950">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover opacity-90 hover:scale-105 transition duration-300">
+                            <div class="absolute top-3 right-3 bg-black/80 backdrop-blur-md border border-zinc-700 text-orange-500 font-black px-3 py-1 rounded-xl text-sm shadow-md">
+                                ${p.price.toFixed(2)} €
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-bold text-base text-white mb-2">${p.name}</h3>
+                            <p class="text-xs text-zinc-400 mb-4 leading-relaxed">${p.desc}</p>
+                            <div class="space-y-1.5 border-t border-zinc-800 pt-3">
+                                ${p.features.map(f => `<div class="text-[11px] text-zinc-400 flex items-center gap-2"><i class="fas fa-check text-orange-500 text-[10px]"></i> ${f}</div>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0">
+                        <button onclick="handleAddToCart(${p.id})" class="w-full bg-zinc-800 hover:bg-orange-500 hover:text-black text-white font-bold py-3 rounded-xl text-xs transition duration-200 flex items-center justify-center gap-2 border border-zinc-700 hover:border-orange-500">
+                            <i class="fas fa-plus">></i> Añadir a la Cesta
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-Para poner este enlace en la biografía de `@roneo_barber`, puedes subir estos archivos gratuitamente a:
-- **Vercel** o **Netlify**: Simplemente arrastra la carpeta `roneo-barber-cosmetics` y obtendrás un enlace inmediato tipo `roneo-barber.vercel.app`.
-- **GitHub Pages**: Subir al repositorio y activar Pages en los ajustes.
+        function handleAddToCart(productId) {
+            const product = products.find(p => p.id == productId);
+            if (product.hasAroma) {
+                selectedProductForAroma = productId;
+                document.getElementById('aroma-modal').classList.remove('hidden');
+            } else {
+                addCartItem(productId, null);
+            }
+        }
+
+        function closeAromaModal() {
+            document.getElementById('aroma-modal').classList.add('hidden');
+            selectedProductForAroma = null;
+        }
+
+        function confirmAddAroma() {
+            const aroma = document.querySelector('input[name="aroma"]:checked').value;
+            addCartItem(selectedProductForAroma, aroma);
+            closeAromaModal();
+        }
+
+        function addCartItem(productId, aroma) {
+            // Clave única para diferenciar aromas en la cesta
+            const cartKey = aroma ? `${productId}_${aroma}` : `${productId}`;
+            cart[cartKey] = cart[cartKey] || { productId: productId, qty: 0, aroma: aroma };
+            cart[cartKey].qty += 1;
+            updateCartUI();
+            showToast("¡Producto añadido a la cesta!");
+        }
+
+        function changeQuantity(cartKey, delta) {
+            if (cart[cartKey]) {
+                cart[cartKey].qty += delta;
+                if (cart[cartKey].qty <= 0) {
+                    delete cart[cartKey];
+                }
+                updateCartUI();
+            }
+        }
+
+        function updateCartUI() {
+            let totalCount = 0;
+            let totalPrice = 0;
+            let itemsHTML = '';
+
+            for (const [key, item] of Object.entries(cart)) {
+                const product = products.find(p => p.id == item.productId);
+                if (product) {
+                    totalCount += item.qty;
+                    let subtotal = product.price * item.qty;
+                    totalPrice += subtotal;
+                    itemsHTML += `
+                        <div class="py-3 flex justify-between items-center">
+                            <div>
+                                <h4 class="font-bold text-sm text-white">${product.name}</h4>
+                                ${item.aroma ? `<span class="text-[11px] text-orange-500 font-medium">Aroma: ${item.aroma}</span><br>` : ''}
+                                <span class="text-xs text-zinc-400">${product.price.toFixed(2)} € x ${item.qty}</span>
+                            </div>
+                            <div class="flex items-center gap-3 bg-zinc-950 border border-zinc-800 rounded-xl p-1">
+                                <button onclick="changeQuantity('${key}', -1)" class="w-7 h-7 bg-zinc-800 rounded-lg flex items-center justify-center text-xs font-bold text-white hover:bg-zinc-700">-</button>
+                                <span class="text-sm font-bold w-4 text-center text-white">${item.qty}</span>
+                                <button onclick="changeQuantity('${key}', 1)" class="w-7 h-7 bg-zinc-800 rounded-lg flex items-center justify-center text-xs font-bold text-white hover:bg-zinc-700">+</button>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            document.getElementById('cart-badge').innerText = totalCount;
+            document.getElementById('cart-total').innerText = totalPrice.toFixed(2) + ' €';
+            document.getElementById('modal-total').innerText = totalPrice.toFixed(2) + ' €';
+            
+            const container = document.getElementById('cart-items-container');
+            if (totalCount === 0) {
+                container.innerHTML = `<div class="text-center py-12 text-zinc-600"><i class="fas fa-shopping-basket text-4xl mb-2 text-zinc-700"></i><p class="text-xs">Tu cesta está vacía</p></div>`;
+            } else {
+                container.innerHTML = itemsHTML;
+            }
+        }
+
+        function openCartModal() {
+            document.getElementById('cart-modal').classList.remove('hidden');
+        }
+
+        function closeCartModal() {
+            document.getElementById('cart-modal').classList.add('hidden');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-text').innerText = message;
+            toast.classList.remove('opacity-0');
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+            }, 2000);
+        }
+
+        function copyOrderAndOpenInstagram() {
+            let totalCount = Object.values(cart).reduce((acc, item) => acc + item.qty, 0);
+            if (totalCount === 0) {
+                showToast("Añade algún producto primero");
+                return;
+            }
+
+            let text = "¡Hola! Me gustaría hacer el siguiente pedido:\n\n";
+            let totalPrice = 0;
+
+            for (const [key, item] of Object.entries(cart)) {
+                const product = products.find(p => p.id == item.productId);
+                if (product) {
+                    let subtotal = product.price * item.qty;
+                    totalPrice += subtotal;
+                    let aromaText = item.aroma ? ` [Aroma: ${item.aroma}]` : '';
+                    text += `▪ ${item.qty}x ${product.name}${aromaText} (${subtotal.toFixed(2)} €)\n`;
+                }
+            }
+
+            text += `\nTotal estimado: ${totalPrice.toFixed(2)} €\n¿Hay disponibilidad para recoger en tienda?`;
+
+            navigator.clipboard.writeText(text).then(() => {
+                closeCartModal();
+                document.getElementById('custom-alert').classList.remove('hidden');
+            }).catch(err => {
+                alert("No se pudo copiar automáticamente.");
+            });
+        }
+
+        function closeAlertAndRedirect() {
+            document.getElementById('custom-alert').classList.add('hidden');
+            window.location.href = "https://ig.me/m/roneo_barber";
+        }
+
+        renderProducts();
+    </script>
+</body>
+</html>
