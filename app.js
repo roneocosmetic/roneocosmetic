@@ -42,14 +42,21 @@ function renderProducts() {
     grid.innerHTML = products.map(p => `
         <div class="bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden flex flex-col justify-between shadow-lg">
             <div>
-                <!-- Imagen grande y limpia (h-80 en pantallas grandes para que se lea perfectamente la descripción de la foto) -->
-                <div class="relative h-72 sm:h-80 bg-zinc-950 flex items-center justify-center p-3">
-                    <img src="${p.image}" alt="${p.name}" class="max-h-full max-w-full object-contain">
+                <!-- Imagen grande con botón de zoom (+) integrado -->
+                <div class="relative h-72 sm:h-80 bg-zinc-950 flex items-center justify-center p-3 cursor-pointer group" onclick="openImageModal('${p.image}', '${p.name}')">
+                    <img src="${p.image}" alt="${p.name}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300">
+                    
+                    <!-- Botón flotante con símbolo de más (+) para ampliar -->
+                    <div class="absolute bottom-3 left-3 bg-black/80 hover:bg-orange-500 hover:text-black text-white border border-zinc-700 hover:border-orange-500 w-9 h-9 rounded-xl flex items-center justify-center shadow-md transition duration-200">
+                        <i class="fas fa-plus text-xs"></i>
+                    </div>
+
                     <div class="absolute top-3 right-3 bg-black/80 border border-zinc-700 text-orange-500 font-black px-3 py-1.5 rounded-xl text-sm shadow-md">
                         ${p.price.toFixed(2)} €
                     </div>
                 </div>
-                <!-- Solo el nombre del producto, sin descripciones de texto repetidas -->
+                
+                <!-- Solo el nombre del producto -->
                 <div class="p-4">
                     <h3 class="font-bold text-base sm:text-lg text-white">${p.name}</h3>
                 </div>
@@ -61,6 +68,16 @@ function renderProducts() {
             </div>
         </div>
     `).join('');
+}
+
+function openImageModal(imgSrc, imgTitle) {
+    document.getElementById('modal-img-element').src = imgSrc;
+    document.getElementById('modal-img-title').innerText = imgTitle;
+    document.getElementById('image-modal').classList.remove('hidden');
+}
+
+function closeImageModal() {
+    document.getElementById('image-modal').classList.add('hidden');
 }
 
 function handleAddToCart(productId) {
