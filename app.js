@@ -42,9 +42,9 @@ function renderProducts() {
     grid.innerHTML = products.map(p => `
         <div class="bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden flex flex-col justify-between shadow-lg">
             <div>
-                <!-- Imagen grande con botón de zoom (+) integrado -->
-                <div class="relative h-72 sm:h-80 bg-zinc-950 flex items-center justify-center p-3 cursor-pointer group" onclick="openImageModal('${p.image}', '${p.name}')">
-                    <img src="${p.image}" alt="${p.name}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300">
+                <!-- Vista previa con recorte superior para ocultar la palabra "COSMETICS" de la foto -->
+                <div class="relative h-72 sm:h-80 bg-zinc-950 overflow-hidden flex items-center justify-center cursor-pointer group" onclick="openImageModal('${p.image}', '${p.name}')">
+                    <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover object-top scale-110 group-hover:scale-125 transition duration-300">
                     
                     <!-- Botón flotante con símbolo de más (+) para ampliar -->
                     <div class="absolute bottom-3 left-3 bg-black/80 hover:bg-orange-500 hover:text-black text-white border border-zinc-700 hover:border-orange-500 w-9 h-9 rounded-xl flex items-center justify-center shadow-md transition duration-200">
