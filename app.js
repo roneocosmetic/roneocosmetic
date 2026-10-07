@@ -171,10 +171,20 @@ function copyOrderAndOpenInstagram() {
     });
 }
 
+// --- MODIFICACIÓN AQUÍ ---
 function closeAlertAndRedirect() {
     document.getElementById('custom-alert').classList.add('hidden');
-    window.location.href = "https://ig.me/m/roneo_barber";
+    
+    // 1. Intenta abrir la app de Instagram directamente en tu perfil
+    window.location.href = "instagram://user?username=roneo_barber";
+    
+    // 2. Si no se abre la app en 1 segundo (porque no está instalada),
+    //    el navegador abrirá el enlace web como respaldo.
+    setTimeout(() => {
+        window.location.href = "https://instagram.com/roneo_barber";
+    }, 1000);
 }
+// -------------------------
 
 // Ejecutar al cargar
 renderProducts();
